@@ -1,0 +1,711 @@
+<!-- meta tags and other links -->
+
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+
+{% block content %}
+
+<main class="dashboard-main">
+  <div class="navbar-header">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-auto">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
+        <h6 class="fw-semibold mb-0">MEPS Dashboard</h6>
+  </div>
+  </div>
+
+  <div class="dashboard-main-body">
+    <div class="row gy-4">
+      <div class="col-xxxl-9">
+        <!-- Pred -->
+        <div class="row gy-4">
+          <div class="col-xxl-3 col-xl-4 col-sm-6">
+            <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-6">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="mb-0 w-48-px h-48-px bg-cyan-100 text-cyan-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                      <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 6 L45 16 L45 35 Q45 48 32 58 Q19 48 19 35 L19 16 Z" fill="#4299E1" stroke="#2B6CB0" stroke-width="1.5"/>
+                        
+                        <!-- Medical cross -->
+                        <rect x="29" y="19" width="6" height="19" fill="white" rx="1"/>
+                        <rect x="22" y="26" width="20" height="6" fill="white" rx="1"/>
+                        
+                        <!-- Small heart symbol -->
+                        <path d="M26 42 Q24 40 22 42 Q22 44 26 47 Q30 44 30 42 Q28 40 26 42 Z" fill="#E53E3E"/>
+                        
+                        <!-- Plus symbol in corner -->
+                        <circle cx="42" cy="16" r="5" fill="#48BB78"/>
+                        <rect x="39" y="14" width="6" height="1.5" fill="white"/>
+                        <rect x="41" y="12" width="1.5" height="6" fill="white"/>
+                      </svg>
+                    </span>
+                    <div>
+                      <h6 class="fw-semibold mb-2">{{ prediction|floatformat:2 }}%</h6>
+                      <span class="fw-medium text-secondary-light text-sm"> {{insurance_type}} Insurance </span>
+                    </div>
+                  </div>
+                </div>
+               <p class="text-sm mb-0">{{ suitability_status }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-xxl-3 col-xl-4 col-sm-6">
+            <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-6">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="mb-0 w-48-px h-48-px bg-cyan-100 text-cyan-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                      <i class="ri-group-fill"></i>
+                    </span>
+                    <div>
+                      <h6 class="fw-semibold mb-2">${{avg_expenditure|intcomma}}</h6>
+                      <span class="fw-medium text-secondary-light text-sm">Expenditure/Head</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm mb-0"> {{ insurance_type }} Insurance</p>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-xxl-3 col-xl-4 col-sm-6">
+            <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-4">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="mb-0 w-48-px h-48-px bg-lilac-100 text-lilac-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                      <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Person head silhouette -->
+                        <circle cx="50" cy="35" r="15" fill="#4A5568"/>
+                        <path d="M25 75 Q25 60 50 60 Q75 60 75 75 L75 85 L25 85 Z" fill="#4A5568"/>
+                        
+                        <!-- Dollar sign -->
+                        <circle cx="70" cy="25" r="12" fill="#48BB78" stroke="#38A169" stroke-width="2"/>
+                        <text x="70" y="31" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">$</text>
+                        
+                        <!-- Cost indicators -->
+                        <rect x="15" y="20" width="20" height="3" fill="#E53E3E" rx="1"/>
+                        <rect x="15" y="25" width="15" height="3" fill="#E53E3E" rx="1"/>
+                        <rect x="15" y="30" width="18" height="3" fill="#E53E3E" rx="1"/>
+                      </svg>
+                    </span>
+                    <div>
+                      <h6 class="fw-semibold mb-2">{{ avg_charges_per_head }}</h6>
+                      <span class="fw-medium text-secondary-light text-sm">Charges/Head</span>
+
+                    </div>
+
+                  </div>
+                </div>
+                <p class="text-sm mb-0"> {{ insurance_type }} Insurance</p>
+                <!-- <span class="fw-medium text-secondary-light text-sm">{{ insurance_type }} Insurance</span> -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xxl-3 col-xl-4 col-sm-6">
+            <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-1">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="mb-0 w-48-px h-48-px bg-primary-100 text-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                      <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Wallet/pocket -->
+                        <rect x="25" y="30" width="50" height="40" fill="#8B4513" stroke="#654321" stroke-width="2" rx="5"/>
+                        <rect x="27" y="32" width="46" height="8" fill="#A0522D"/>
+                        
+                        <!-- Money coming out -->
+                        <rect x="35" y="25" width="12" height="6" fill="#48BB78" rx="1"/>
+                        <text x="41" y="29" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">$</text>
+                        
+                        <rect x="50" y="20" width="12" height="6" fill="#48BB78" rx="1"/>
+                        <text x="56" y="24" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">$</text>
+                        
+                        <!-- Empty wallet indicator -->
+                        <circle cx="50" cy="55" r="8" fill="#F7FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                        <path d="M45 55 L55 55 M50 50 L50 60" stroke="#E53E3E" stroke-width="2"/>
+                        
+                        <!-- Arrow showing outflow -->
+                        <path d="M30 45 L20 35" stroke="#E53E3E" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <defs>
+                          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#E53E3E"/>
+                          </marker>
+                        </defs>
+                      </svg>
+                    </span>
+                    <div>
+                      <h6 class="fw-semibold mb-2">{{avg_oop_burden}}% </h6>
+                      <span class="fw-medium text-secondary-light text-sm">Out Of Pocket Burden</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm mb-0"> <span class="text-primary-600"></span>{{ insurance_type }} Insurance</p>
+              </div>
+              <div data-toggle="tooltip" data-placement="left"
+                title="Out-of-Pocket (OOP) Burden is the percentage of total income spent on healthcare expenses.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-info-circle text-secondary cursor-pointer" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  <path
+                    d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xxl-3 col-xl-4 col-sm-6">
+            <div class="card p-3 shadow-2 radius-8 h-100 bg-gradient-end-1">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="mb-0 w-48-px h-48-px bg-white text-success-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                      <svg id ="catastrophicIcon" width="32" height=" 32" fill="currentColor"
+                        class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                        <path
+                          d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+                        <path
+                          d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                      </svg>
+                    </span>
+                    <div>
+                      <h6 class="fw-semibold mb-2">{{catastrophic_rate}}% </h6>
+                      <span class="fw-medium text-secondary-light text-sm">Catastrophic Burden</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm mb-0"> {{insurance_type}} Insurance</p>
+              </div>
+              <div data-toggle="tooltip" data-placement="top"
+                title="Proportion of people whose out-of-pocket spending exceeds 10% of income">
+                <svg  width="16" height="16" fill="currentColor"
+                  class="bi bi-info-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1
+                              A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083
+                     c.294.07.352.176.288.469l-.738 3.468
+                     c-.194.897.105 1.319.808 1.319
+                     .545 0 1.178-.252 1.465-.598l.088-.416
+                     c-.2.176-.492.246-.686.246
+                     -.275 0-.375-.193-.304-.533zM9 4.5
+                     a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                </svg>
+              </div>
+
+            </div>
+          </div>
+
+          
+          <div class="col-xxl-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                  <h6 class="mb-2 fw-bold text-lg mb-0">Health Status vs Insurance type</h6>
+                  <select id="insuranceSelect1"
+                    class="form-select form-select-sm w-auto bg-base border-0 text-secondary-light">
+                    {% for itype in insurance_types %}
+                    <option value="{{ itype }}" {% if itype == insurance_type %} selected {% endif %}>{{ itype }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas id="insuranceHealthChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earning Statistic -->
+          <div class="col-xxl-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                  <h6 class="mb-2 fw-bold text-lg mb-0">Health Status vs Insurance type</h6>
+                  <select id="insuranceSelect"
+                    class="form-select form-select-sm w-auto bg-base border-0 text-secondary-light">
+                    {% for itype in insurance_types %}
+                    <option value="{{ itype }}" {% if itype == insurance_type %} selected {% endif %}>{{ itype }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="card-body p-24">
+                <div id="healthChart" class="apexcharts-tooltip-style-1"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earning Statistic -->
+
+          <!-- Patient Visited by Depertment -->
+          
+          <div class="col-xxl-6">
+            <div class="card h-100 radius-8 border-0">
+              <div class="card-header border-bottom d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                <h6 class="mb-2 fw-bold text-lg">{{insurance_type}} Insurance Health Score</h6>
+              </div>
+              <div class="card-body p-24">
+                    <div id="chart-container" style="width: 100%; height: 300px;"></div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-xxl-6">
+            <div class="card h-100">
+              <div class="card-header">
+                <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
+                  <h6 class="mb-2 fw-bold text-lg mb-0">Prevalence of Diseases</h6>
+                </div>
+              </div>
+              <div class="card-body p-24 d-flex align-items-center gap-16">
+                <div id="radialMultipleBar"></div>
+                <ul class="d-flex flex-column gap-12">
+                {% for label, value in disease_data %}
+                <li>
+                  <span class="text-sm">
+                    {{ label }}: <span class="text-sm text fw-semibold">{{ value }}%</span>
+                  </span>
+                </li>
+                {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Patient Visited by Depertment -->
+
+
+        <div class="col-12">
+        <div style="background: transparent; box-shadow: none; border: none; padding: 0;">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+              <!-- <label for="insuranceSelect" class="fw-semibold me-2 mb-0 text-secondary">Select Insurance Type:</label> -->
+
+            </div>
+          </div>
+          <div id="chartContainer" style="height: 400px;"></div>
+        </div>
+
+        <div class="col-12">
+        <div style="background: transparent; box-shadow: none; border: none; padding: 0;">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+  
+              
+            </div>
+          </div>
+          <div id="chartContainer" style="height: 400px;"></div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+
+<script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+<script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.candy.js"></script>
+
+
+<!-- Apex Chart js -->
+<script
+  src="https://wowdash.pixcelsthemes.com/wowdash-bootstrap/WowDash/wowdash/assets/js/lib/apexcharts.min.js"></script>
+<!-- Data Table js -->
+<script
+  src="https://wowdash.pixcelsthemes.com/wowdash-bootstrap/WowDash/wowdash/assets/js/lib/dataTables.min.js"></script>
+<!-- Iconify Font js -->
+<script
+  src="https://wowdash.pixcelsthemes.com/wowdash-bootstrap/WowDash/wowdash/assets/js/lib/iconify-icon.min.js"></script>
+
+
+<script>
+  const allData = JSON.parse('{{ all_health_data|safe }}');
+
+  const firstType = document.getElementById("insuranceSelect").value;
+  const categories = Object.keys(allData[firstType]);
+  const seriesData = Object.values(allData[firstType]);
+
+  const healthChart = new ApexCharts(document.querySelector("#healthChart"), {
+    series: [{
+      name: 'Patients',
+      data: seriesData
+    }],
+    chart: { type: 'bar', height: 270 },
+    xaxis: { categories: categories },
+    colors: ['#487FFF'],
+    dataLabels: { enabled: true }
+  });
+
+  healthChart.render();
+
+  document.getElementById('insuranceSelect').addEventListener('change', function () {
+    const selected = this.value;
+    healthChart.updateOptions({
+      xaxis: { categories: Object.keys(allData[selected]) }
+    });
+    healthChart.updateSeries([{
+      data: Object.values(allData[selected])
+    }]);
+  });
+
+
+
+  // ===================== Average Enrollment Rate End =============================== 
+
+
+  // ================================ User Activities Donut chart End ================================ 
+  var options = {
+    series: [30, 25],
+    colors: ['#FF9F29', '#45B369'],
+    labels: ['Female', 'Male'],
+    legend: {
+      show: false
+    },
+    chart: {
+      type: 'donut',
+      height: 260,
+      sparkline: {
+        enabled: true // Remove whitespace
+      },
+      margin: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      },
+      padding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      }
+    },
+    stroke: {
+      width: 0,
+    },
+    dataLabels: {
+      enabled: false
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }],
+  };
+
+  var chart = new ApexCharts(document.querySelector("#statisticsDonutChart"), options);
+  chart.render();
+  // ================================ User Activities Donut chart End ================================ 
+
+
+  // // ================================ Client Payment Status chart End ================================ 
+  // var options = {
+  //   series: [{
+  //     name: 'Net Profit',
+  //     data: [44, 100, 40, 56, 30, 58, 50]
+  //   }, {
+  //     name: 'Free Cash',
+  //     data: [60, 120, 60, 90, 50, 95, 90]
+  //   }],
+  //   colors: ['#45B369', '#FF9F29'],
+  //   labels: ['Active', 'New', 'Total'],
+
+  //   legend: {
+  //     show: false
+  //   },
+  //   chart: {
+  //     type: 'bar',
+  //     height: 260,
+  //     toolbar: {
+  //       show: false
+  //     },
+  //   },
+  //   grid: {
+  //     show: true,
+  //     borderColor: '#D1D5DB',
+  //     strokeDashArray: 4, // Use a number for dashed style
+  //     position: 'back',
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       borderRadius: 4,
+  //       columnWidth: 8,
+  //     },
+  //   },
+  //   dataLabels: {
+  //     enabled: false
+  //   },
+  //   states: {
+  //     hover: {
+  //       filter: {
+  //         type: 'none'
+  //       }
+  //     }
+  //   },
+  //   stroke: {
+  //     show: true,
+  //     width: 0,
+  //     colors: ['transparent']
+  //   },
+  //   xaxis: {
+  //     categories: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'],
+  //   },
+  //   fill: {
+  //     opacity: 1,
+  //     width: 18,
+  //   },
+  // };
+
+  // var chart = new ApexCharts(document.querySelector("#paymentStatusChart"), options);
+  // chart.render();
+  // ================================ Client Payment Status chart End ================================ 
+
+  // ================================= Multiple Radial Bar Chart Start =============================
+  // var options = {
+  //   series:  {{ disease_values|safe }}, 
+  //   chart: {
+  //     height: 300,
+  //     type: 'radialBar',
+  //   },
+  //   colors: ['#3D7FF9', '#ff9f29', '#16a34a'],
+  //   stroke: {
+  //     lineCap: 'round',
+  //   },
+  //   plotOptions: {
+  //     radialBar: {
+  //       hollow: {
+  //         size: '10%',  // Adjust this value to control the bar width
+  //       },
+  //       dataLabels: {
+  //         name: {
+  //           fontSize: '16px',
+  //         },
+  //         value: {
+  //           fontSize: '16px',
+  //         },
+  //         // total: {
+  //         //     show: true,
+  //         //     formatter: function (w) {
+  //         //         return '82%'
+  //         //     }
+  //         // }
+  //       },
+  //       track: {
+  //         margin: 20, // Space between the bars
+  //       }
+  //     }
+  //   },
+  //   labels: ['Cardiology', 'Psychiatry', 'Pediatrics'],
+  // };
+
+  // var chart = new ApexCharts(document.querySelector("#radialMultipleBar"), options);
+  // chart.render();
+
+  var options = {
+    series: {{ disease_values|safe }},   // percentages from backend
+    chart: {
+      height: 350,
+      type: 'radialBar',
+    },
+    colors: ['#3D7FF9', '#ff9f29', '#16a34a', '#ef4444', '#06b6d4'], // extend for all diseases
+    stroke: {
+      lineCap: 'round',
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: '4%',   // width of bars
+        },
+        dataLabels: {
+          name: {
+            fontSize: '16px',
+          },
+          value: {
+            fontSize: '16px',
+            formatter: function (val) {
+              return val + "%";   // append percentage
+            }
+          },
+          // total: {
+          //   show: true,
+          //   // label: 'Avg %',
+          //   formatter: function (w) {
+          //     // compute average percentage dynamically
+          //     let values = w.globals.series;
+          //     let avg = values.reduce((a, b) => a + b, 0) / values.length;
+          //     return avg.toFixed(1) + "%";
+          //   }
+          // }
+        },
+        track: {
+          margin: 20, // space between concentric rings
+        }
+      }
+    },
+    labels: {{ disease_labels|safe }},   // disease names from backend
+  };
+
+  var chart = new ApexCharts(document.querySelector("#radialMultipleBar"), options);
+  chart.render();
+
+  // ================================= Multiple Radial Bar Chart End =============================
+
+</script>
+
+<script>
+  const avgHealthScore = parseFloat("{{ avg_health_score }}") || 0;
+
+  const dataSource = {
+  
+    chart: {
+      // caption: "Average Health Score",
+      // subcaption: "{{ insurance_type }} Insurance",
+      lowerlimit: "0",
+      upperlimit: "0.8",
+      showvalue: "1",
+      numbersuffix: "",
+      theme: "candy",
+      bgcolor:'FFFFFF',
+       baseFontColor: "#00000"
+    },
+    colorrange: {
+      color: [
+        { minvalue: "0", maxvalue: "0.3", code: "#F2726F" },
+        { minvalue: "0.3", maxvalue: "0.6", code: "#FFC533" },
+        { minvalue: "0.6", maxvalue: "0.8", code: "#62B58F" },
+
+      ]
+    },
+    dials: {
+      dial: [
+        {
+          value: avgHealthScore.toString(),
+          tooltext: `<b>${avgHealthScore}%</b> Average Health Score`,
+          baseFontColor: "#000000"
+
+        }
+      ]
+    },
+    // trendpoints: {
+    //   point: [
+    //     {
+    //       startvalue: "80",
+    //       displayvalue: "Target",
+    //       thickness: "2",
+    //       color: "#E15A26",
+    //       usemarker: "1",
+    //       markerbordercolor: "#E15A26",
+    //       markertooltext: "80%"
+    //     }
+      // ]
+    // }
+  };
+
+  FusionCharts.ready(function () {
+    var myChart = new FusionCharts({
+      type: "angulargauge",
+      renderAt: "chart-container",
+      width: "100%",
+      height: "300",
+      dataFormat: "json",
+      dataSource
+    }).render();
+  });
+</script>
+
+
+
+<script>
+  // Replace this with your actual catastrophic value from backend
+  const catastrophicValue = parseFloat("{{ catastrophic_rate }}") || 0;
+
+  const icon = document.getElementById("catastrophicIcon");
+  
+  if (catastrophicValue > 1) {
+    icon.style.color = "red"; // Value > 1 → red
+  } else {
+    icon.style.color = "green"; // Value ≤ 1 → green
+  }
+</script>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const chartData = JSON.parse('{{ chart_data|escapejs }}'); // From backend
+  const ageGroups = {{ age_groups|safe }}; // X-axis
+
+  let ctx = document.getElementById("insuranceHealthChart").getContext("2d");
+  let insuranceSelect1 = document.getElementById("insuranceSelect1");
+  let currentChart;
+
+  function buildChart(insuranceType) {
+    const data = chartData[insuranceType];
+
+    const goodVals = ageGroups.map(age => data[age]["Good"]);
+    const badVals = ageGroups.map(age => data[age]["Bad"]);
+
+    return new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ageGroups,
+        datasets: [
+          { label: "Good Health", data: goodVals, backgroundColor: "#22c55e" },
+          { label: "Bad Health", data: badVals, backgroundColor: "#ef4444" }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { beginAtZero: true, title: { display: true, text: 'Number of Patients' } },
+          y: { title: { display: true, text: 'Age Groups' } }
+        }
+      }
+    });
+  }
+
+  // Initial load based on selected dropdown
+  currentChart = buildChart(insuranceSelect1.value);
+
+  // On dropdown change → reload chart
+  insuranceSelect1.addEventListener("change", (e) => {
+    currentChart.destroy();
+    currentChart = buildChart(e.target.value);
+  });
+</script>
+
+
+</body>
+{% endblock %}
+
+
+</html>
